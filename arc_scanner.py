@@ -238,17 +238,32 @@ class ArcRealTimeScanner:
     def _visualize_results(self, frame: np.ndarray, result: Dict) -> np.ndarray:
         vis = frame.copy()
         
-        # Draw detections
-        for category in ['wall_elements', 'general_objects']:
-            if category in result['detections']:
-                for det in result['detections'][category]:
-                    bbox = det['bbox']
-                    x1, y1, x2, y2 = map(int, bbox)
-                    
-                    cv2.rectangle(vis, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                    label = f"{det['class']}: {det['confidence']:.2f}"
-                    cv2.putText(vis, label, (x1, y1-10), 
-                               cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        # Draw object detections - handle both list and dict formats
+        detections_data = result['detections']
+        
+        if isinstance(detections_data, dict):
+            # Extract all detections from dict
+            all_dets = []
+            if 'wall_elements' in detections_data:
+                all_dets.extend(detections_data['wall_elements'])
+            if 'general_objects' in detections_data:
+                all_dets.extend(detections_data['general_objects'])
+        else:
+            all_dets = detections_data
+        
+        # Draw boxes
+        for det in all_dets:
+            bbox = det['bbox']
+            x1, y1, x2, y2 = map(int, bbox)
+            
+            # Color code: wall elements = red, general = green
+            color = (0, 0, 255) if det.get('type') == 'wall_element' else (0, 255, 0)
+            
+            cv2.rectangle(vis, (x1, y1), (x2, y2), color, 2)
+            
+            label = f"{det['class']}: {det['confidence']:.2f}"
+            cv2.putText(vis, label, (x1, y1-10), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
         
         # Overlay depth
         if result['depth_map'] is not None:
@@ -269,9 +284,11 @@ class ArcRealTimeScanner:
 
 if __name__ == "__main__":
     from dual_detection_service import DualDetectionService
+    import os
     
-    # Initialize detector
-    detector = DualDetectionService()
+    # Initialize detector with optional wall model
+    wall_model = "wall_elements_specialized.pt" if os.path.exists("wall_elements_specialized.pt") else None
+    detector = DualDetectionService(wall_model_path=wall_model)
     
     # Create scanner
     scanner = ArcRealTimeScanner(detector)
