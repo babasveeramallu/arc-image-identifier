@@ -3,146 +3,132 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Real-time AI-powered wall scanning tool that detects architectural elements (outlets, switches, windows, doors) and creates 3D models using computer vision and deep learning.
+Comprehensive AI-powered object detection system that combines specialized wall element detection with general object recognition for complete scene understanding.
 
 ## Features
 
-- **YOLOv8 Detection** - State-of-the-art object detection for 8 wall element types
-- **MiDaS Depth Estimation** - Neural depth mapping for 3D reconstruction
-- **Fast API** - RESTful API with sub-second response times
-- **Docker Ready** - Production-ready containerization
-- **Interactive Docs** - Built-in Swagger UI and ReDoc
-- **Well Tested** - 14+ tests with CI/CD pipeline
+- **Dual Detection System** - Specialized wall elements + 80 general object classes
+- **YOLOv8 Models** - Custom trained + pre-trained models for maximum coverage
+- **Smart Overlap Removal** - Intelligent deduplication of detections
+- **Google Colab Training** - Free GPU training with enhanced notebook
+- **Real-time Detection** - Sub-second response times
+- **Production Ready** - Clean, optimized codebase
 
 ## Quick Start
 
 ```bash
-# Clone the repository
-git clone https://github.com/babasveeramallu/arc-image-to-model.git
-cd arc-image-to-model
-
 # Install dependencies
 pip install -r requirements.txt
 
-# Run server
-python run.py
+# Test dual detection system
+python demo_pretrained.py
+
+# Detect objects in specific image
+python detect_objects.py
 ```
 
-Visit **http://localhost:8000** to see the web interface!
+## Detection Capabilities
 
-## Installation
+### Specialized Wall Elements (Custom Model)
+- **5 Classes**: mirror, thermostat, vent, wall_socket, window_box
+- **Training Data**: 5,002 labeled images
+- **Accuracy**: Optimized for architectural elements
 
-### Local Installation
+### General Objects (Pre-trained YOLOv8m)
+- **80 Classes**: person, furniture, electronics, vehicles, etc.
+- **Coverage**: Anything that might appear on walls
+- **Accuracy**: 80%+ on COCO dataset, faster inference
 
+## Training Your Own Model
+
+### Option 1: Google Colab (Recommended)
+1. Open `Colab_Training_Enhanced.ipynb` in Google Colab
+2. Enable GPU (Runtime → Change runtime type → GPU)
+3. Upload `yolo_data.zip` when prompted
+4. Run all cells (2-3 hours training)
+5. Download both models
+
+### Option 2: Local Training
 ```bash
-pip install -r requirements.txt
-python run.py
+python train_yolo.py
 ```
 
-### Docker
+## Usage Examples
 
-```bash
-docker build -t arc-scanner .
-docker run -p 8000:8000 arc-scanner
+### Dual Detection Service
+```python
+from dual_detection_service import DualDetectionService
+
+# Initialize with both models
+detector = DualDetectionService(
+    wall_model_path='wall_elements_specialized.pt',
+    general_model_path='yolov8m.pt'
+)
+
+# Comprehensive detection
+results = detector.detect_comprehensive('image.jpg')
+print(f"Total objects: {results['total_objects']}")
+print(f"Wall elements: {len(results['wall_elements'])}")
+print(f"General objects: {len(results['general_objects'])}")
 ```
 
-### Using Make
+### Simple Detection
+```python
+from ultralytics import YOLO
 
-```bash
-make install
-make run
-make test
+# Use YOLOv8m for balanced speed/accuracy
+model = YOLO('yolov8m.pt')
+results = model('image.jpg')
+results[0].show()
 ```
 
-## Detected Elements
+## Model Performance
 
-Arc can detect 8 types of architectural elements:
-
-- Outlets
-- Light Switches
-- Windows
-- Doors
-- Thermostats
-- Vents
-- Picture Frames
-- Mirrors
-
-## API Endpoints
-
-### Detection
-
-```bash
-curl -X POST "http://localhost:8000/api/v1/detect/objects" -F "file=@wall.jpg"
-```
-
-### Depth Estimation
-
-```bash
-curl -X POST "http://localhost:8000/api/v1/depth/estimate" -F "file=@room.jpg"
-curl -X POST "http://localhost:8000/api/v1/depth/visualize" -F "file=@room.jpg"
-```
-
-### System
-
-```bash
-curl http://localhost:8000/health
-```
-
-## Testing
-
-```bash
-make test
-pytest tests/ -v
-```
-
-**Test Coverage**: 14 tests covering detection, depth estimation, and API endpoints.
+| Model Type | Classes | Accuracy | Use Case |
+|------------|---------|----------|----------|
+| Specialized Wall | 5 | Custom trained | Architectural elements |
+| General YOLOv8m | 80 | 80%+ | Everything else |
+| Combined System | 85 | Optimal | Complete detection |
 
 ## Project Structure
 
 ```
 Arc/
-├── src/
-│   ├── api/
-│   │   ├── main.py
-│   │   ├── middleware.py
-│   │   └── routes/
-│   ├── core/
-│   │   ├── config.py
-│   │   └── exceptions.py
-│   ├── services/
-│   │   ├── yolo_detector.py
-│   │   └── depth_estimator.py
-│   └── schemas/
-├── tests/
-├── Dockerfile
-├── docker-compose.yml
-└── Makefile
+├── dual_detection_service.py     # Main detection service
+├── detect_objects.py             # Object detection script
+├── demo_pretrained.py            # Demo with pre-trained model
+├── train_yolo.py                 # Training script
+├── Colab_Training_Enhanced.ipynb # Google Colab notebook
+├── yolo_data/                    # Training dataset
+│   ├── images/train/             # 5,002 training images
+│   ├── labels/train/             # Label files
+│   └── data.yaml                 # Dataset configuration
+├── runs/detect/                  # Training results
+└── requirements.txt              # Dependencies
 ```
 
-## Configuration
+## Key Files
 
-Environment variables (`.env` file):
+- **`dual_detection_service.py`** - Combines both models with smart overlap removal
+- **`Colab_Training_Enhanced.ipynb`** - Complete training pipeline for Google Colab
+- **`yolo_data/`** - 5,002 labeled images for wall element training
+- **`detect_objects.py`** - Simple detection script
+- **`demo_pretrained.py`** - Quick demo using pre-trained models
 
-```bash
-DEBUG=false
-API_PORT=8000
-MODEL_DEVICE=cpu
-DETECTION_CONFIDENCE_THRESHOLD=0.5
-DEPTH_MODEL_TYPE=DPT_Large
-```
+## Training Data
 
-## Performance
+- **Images**: 5,002 high-quality wall images
+- **Classes**: 5 specialized architectural elements
+- **Format**: YOLO format with bounding boxes
+- **Size**: ~1GB compressed (yolo_data.zip)
 
-| Metric | Value |
-|--------|-------|
-| Detection Time | < 2s per image |
-| Depth Estimation | < 5s per image |
-| Detection Accuracy | 85%+ |
-
-## Docker Deployment
+## Quick Demo
 
 ```bash
-docker-compose up -d
+# Run demo with sample images
+python demo_pretrained.py
+
+# Output: detection_result.jpg with bounding boxes
 ```
 
 ## Contributing
@@ -161,14 +147,14 @@ MIT License - see LICENSE file for details.
 
 ## Roadmap
 
-- [x] YOLOv8 detection
-- [x] MiDaS depth estimation
-- [x] REST API
-- [x] Docker support
-- [x] CI/CD pipeline
-- [ ] 3D mesh generation
-- [ ] WebSocket support
+- [x] Dual detection system
+- [x] Google Colab training
+- [x] Smart overlap removal
+- [x] 5,002 image dataset
+- [x] Enhanced training notebook
 - [ ] Real-time video processing
+- [ ] Mobile app integration
+- [ ] 3D scene reconstruction
 
 ---
 
