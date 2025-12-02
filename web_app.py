@@ -19,7 +19,9 @@ import open3d as o3d
 app = FastAPI(title="Arc - Image to 3D Model")
 
 # Initialize services
-detector = DualDetectionService()
+import os
+wall_model = "wall_elements_specialized.pt" if os.path.exists("wall_elements_specialized.pt") else None
+detector = DualDetectionService(wall_model_path=wall_model)
 depth_estimator = DepthEstimator()
 pcd_processor = PointCloudProcessor()
 stitcher = WallStitcher()
