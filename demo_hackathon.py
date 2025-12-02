@@ -15,7 +15,9 @@ def main():
     try:
         # Initialize detection service
         print("1. Loading AI models...")
-        detector = DualDetectionService()
+        import os
+        wall_model = "wall_elements_specialized.pt" if os.path.exists("wall_elements_specialized.pt") else None
+        detector = DualDetectionService(wall_model_path=wall_model)
         print("✓ Object detection ready")
         
         # Initialize scanner
