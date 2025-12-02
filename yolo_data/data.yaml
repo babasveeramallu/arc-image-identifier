@@ -1,0 +1,6 @@
+
+train: C:\Users\sumuk\Documents\Personal\PythonProjects\Hackathon\Arc - Image to Model Tool\yolo_data/images/train
+val: C:\Users\sumuk\Documents\Personal\PythonProjects\Hackathon\Arc - Image to Model Tool\yolo_data/images/train
+
+nc: 5
+names: ['mirror', 'thermostat', 'vent', 'wall_socket', 'window_box_(for_plants)']

@@ -1,43 +1,53 @@
-# Arc - AI Wall Scanner
+# Arc - Image to 3D Model Tool
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Hackathon](https://img.shields.io/badge/Hackathon-Ready-brightgreen.svg)](https://github.com/)
 
-Comprehensive AI-powered object detection system that combines specialized wall element detection with general object recognition for complete scene understanding.
+🏆 **Real-time AI-powered wall scanner that converts smartphone camera input to accurate 3D room models**
 
-## Features
+Built for hackathon: AI model that scans walls and surface elements in real-time, forming accurate 3D models with automatic multi-wall stitching and texture application.
 
-- **Dual Detection System** - Specialized wall elements + 80 general object classes
-- **YOLOv8 Models** - Custom trained + pre-trained models for maximum coverage
-- **Smart Overlap Removal** - Intelligent deduplication of detections
-- **Google Colab Training** - Free GPU training with enhanced notebook
-- **Real-time Detection** - Sub-second response times
-- **Production Ready** - Clean, optimized codebase
+## 🎆 Hackathon Features
 
-## Quick Start
+- **📱 Real-time Camera Scanning** - Live wall detection using smartphone/webcam
+- **🏠 3D Room Reconstruction** - Multi-wall stitching with automatic corner detection
+- **🔌 Element Detection** - AI detection of outlets, switches, windows, doors
+- **🎨 Texture Library** - Apply materials (paint, brick, wood, concrete)
+- **🌐 Web Interface** - Browser-based demo with WebRTC
+- **📥 Model Export** - Download 3D models as PLY files
+- **⚡ Real-time Processing** - Sub-second depth estimation and reconstruction
+
+## 🚀 Quick Start (Hackathon Demo)
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
+# 1. Install dependencies
+pip install -r requirements_hackathon.txt
 
-# Test dual detection system
-python demo_pretrained.py
+# 2. Test 3D scanning system
+python demo_hackathon.py
 
-# Detect objects in specific image
-python detect_objects.py
+# 3. Launch web demo
+python run_web_demo.py
+# Opens at http://localhost:8000
 ```
 
-## Detection Capabilities
+### 🎬 Live Demo
+**Web App**: Point camera at wall → Capture multiple walls → Generate 3D room model → Apply textures → Download PLY file
 
-### Specialized Wall Elements (Custom Model)
-- **5 Classes**: mirror, thermostat, vent, wall_socket, window_box
+## 🔍 Detection + 3D Capabilities
+
+### 🏠 Real-time Wall Scanning
+- **Depth Estimation**: Intel DPT model for RGB-to-depth conversion
+- **Point Cloud Generation**: 3D reconstruction from camera feed
+- **Wall Plane Detection**: RANSAC-based wall surface extraction
+- **Multi-wall Stitching**: ICP registration for room completion
+
+### 🔌 Element Detection (Existing)
+- **5 Wall Classes**: mirror, thermostat, vent, wall_socket, window_box
+- **80 General Classes**: furniture, electronics, etc.
 - **Training Data**: 5,002 labeled images
-- **Accuracy**: Optimized for architectural elements
-
-### General Objects (Pre-trained YOLOv8m)
-- **80 Classes**: person, furniture, electronics, vehicles, etc.
-- **Coverage**: Anything that might appear on walls
-- **Accuracy**: 80%+ on COCO dataset, faster inference
+- **Real-time Overlay**: Live detection boxes on camera feed
 
 ## Training Your Own Model
 
@@ -53,33 +63,42 @@ python detect_objects.py
 python train_yolo.py
 ```
 
-## Usage Examples
+## 💻 Usage Examples
 
-### Dual Detection Service
+### Real-time 3D Scanning
 ```python
+from arc_scanner import ArcRealTimeScanner
 from dual_detection_service import DualDetectionService
 
-# Initialize with both models
-detector = DualDetectionService(
-    wall_model_path='wall_elements_specialized.pt',
-    general_model_path='yolov8m.pt'
-)
+# Initialize scanner
+detector = DualDetectionService()
+scanner = ArcRealTimeScanner(detector)
 
-# Comprehensive detection
-results = detector.detect_comprehensive('image.jpg')
-print(f"Total objects: {results['total_objects']}")
-print(f"Wall elements: {len(results['wall_elements'])}")
-print(f"General objects: {len(results['general_objects'])}")
+# Start real-time scanning
+scanner.start_scanning()
+# Press 'S' to capture walls, 'R' for room model
 ```
 
-### Simple Detection
+### Web Interface
 ```python
-from ultralytics import YOLO
+# Launch web demo
+python run_web_demo.py
 
-# Use YOLOv8m for balanced speed/accuracy
-model = YOLO('yolov8m.pt')
-results = model('image.jpg')
-results[0].show()
+# Features:
+# - Real-time camera access
+# - Live object detection overlay
+# - 3D room model generation
+# - Texture application
+# - PLY model export
+```
+
+### API Usage
+```python
+# Process single frame
+result = scanner.process_frame(camera_frame)
+print(f"Detections: {len(result['detections'])}")
+print(f"Depth map: {result['depth_map'].shape}")
+print(f"Point cloud: {len(result['point_cloud'].points)} points")
 ```
 
 ## Model Performance
@@ -90,30 +109,32 @@ results[0].show()
 | General YOLOv8m | 80 | 80%+ | Everything else |
 | Combined System | 85 | Optimal | Complete detection |
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 Arc/
-├── dual_detection_service.py     # Main detection service
-├── detect_objects.py             # Object detection script
-├── demo_pretrained.py            # Demo with pre-trained model
-├── train_yolo.py                 # Training script
-├── Colab_Training_Enhanced.ipynb # Google Colab notebook
-├── yolo_data/                    # Training dataset
-│   ├── images/train/             # 5,002 training images
-│   ├── labels/train/             # Label files
-│   └── data.yaml                 # Dataset configuration
-├── runs/detect/                  # Training results
-└── requirements.txt              # Dependencies
+├── arc_scanner.py                # 🎆 Core 3D scanning system
+├── web_app.py                    # 🌐 Web interface (FastAPI + WebRTC)
+├── demo_hackathon.py             # 📹 Desktop demo
+├── run_web_demo.py               # 🚀 Web launcher
+├── dual_detection_service.py     # Object detection service
+├── detect_objects.py             # Simple detection script
+├── requirements_hackathon.txt    # 🎆 Hackathon dependencies
+├── static/                       # Web assets
+│   └── textures/                 # Material library
+├── yolo_data/                    # Training dataset (5,002 images)
+├── HACKATHON_SETUP.md            # 📝 Setup instructions
+└── room_model.ply                # 🏠 Generated 3D model
 ```
 
-## Key Files
+## 🔑 Key Files
 
-- **`dual_detection_service.py`** - Combines both models with smart overlap removal
-- **`Colab_Training_Enhanced.ipynb`** - Complete training pipeline for Google Colab
-- **`yolo_data/`** - 5,002 labeled images for wall element training
-- **`detect_objects.py`** - Simple detection script
-- **`demo_pretrained.py`** - Quick demo using pre-trained models
+- **`arc_scanner.py`** - 🎆 Real-time 3D scanning pipeline (depth + point cloud + stitching)
+- **`web_app.py`** - 🌐 Full web interface with camera access and 3D viewer
+- **`demo_hackathon.py`** - 📹 Desktop demo for testing
+- **`run_web_demo.py`** - 🚀 One-click web demo launcher
+- **`dual_detection_service.py`** - Object detection (existing)
+- **`HACKATHON_SETUP.md`** - 📝 Complete setup guide
 
 ## Training Data
 
@@ -145,17 +166,43 @@ MIT License - see LICENSE file for details.
 - [MiDaS](https://github.com/isl-org/MiDaS) - Depth estimation
 - [FastAPI](https://fastapi.tiangolo.com/) - Web framework
 
-## Roadmap
+## 🎆 Hackathon Implementation
 
-- [x] Dual detection system
-- [x] Google Colab training
-- [x] Smart overlap removal
-- [x] 5,002 image dataset
-- [x] Enhanced training notebook
-- [ ] Real-time video processing
-- [ ] Mobile app integration
-- [ ] 3D scene reconstruction
+### ✅ Completed (Hackathon Ready)
+- [x] **Real-time camera scanning** - Live wall detection
+- [x] **3D model generation** - Point cloud to mesh conversion
+- [x] **Multi-wall stitching** - ICP registration algorithm
+- [x] **Element detection** - 5 wall classes + 80 general objects
+- [x] **Web interface** - Browser-based demo
+- [x] **Texture system** - Material library with 5 options
+- [x] **Model export** - PLY file download
+
+### 🔄 Technical Pipeline
+```
+Camera → Depth Estimation → Point Cloud → Wall Detection → 3D Model
+   ↓           ↓              ↓           ↓           ↓
+Object Detection → Real-time Overlay → Multi-wall Stitching → Export
+```
+
+## 🏆 Hackathon Submission
+
+**Challenge**: AI model that scans walls and surface elements in real-time, forming accurate 3D models
+
+**Solution**: Arc - Complete real-time wall scanner with:
+- 📱 Smartphone camera integration
+- 🤖 AI element detection (outlets, switches, etc.)
+- 🏠 Multi-wall 3D room reconstruction
+- 🎨 Texture application system
+- 🌐 Web-based demo interface
+
+**Demo**: `python run_web_demo.py` → http://localhost:8000
+
+**Submission Files**:
+- Working prototype (web link)
+- Demo video (3-5 minutes)
+- Complete source code
+- Setup instructions
 
 ---
 
-Made by Baba Sumukhesh Veeramallu
+🚀 **Made by Baba Sumukhesh Veeramallu** | Hackathon Ready 🏆
