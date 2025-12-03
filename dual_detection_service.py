@@ -33,7 +33,7 @@ class DualDetectionService:
         
         print("✓ Dual detection service initialized")
     
-    def detect_comprehensive(self, image, confidence_threshold: float = 0.5) -> Dict[str, Any]:
+    def detect_comprehensive(self, image, confidence_threshold: float = 0.3) -> Dict[str, Any]:
         """Perform comprehensive detection using available models."""
         
         detections = []

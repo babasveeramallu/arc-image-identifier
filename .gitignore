@@ -4,26 +4,19 @@ __pycache__/
 *$py.class
 *.so
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Virtual environments
-venv/
 env/
+venv/
 ENV/
+
+# Models (large files)
+*.pt
+*.pth
+*.onnx
+
+# Data
+*.zip
+yolo_data/
+runs/
 
 # IDE
 .vscode/
@@ -35,32 +28,15 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Model files (large)
-*.pt
-*.pth
-*.onnx
-*.trt
-
-# Generated files
-runs/
-room_model.ply
-*.ply
-*.obj
-*.stl
-
 # Logs
 *.log
-logs/
 
-# Temporary files
+# Generated files
+detection_result.jpg
+sample_detection.jpg
+detection_demo_*.jpg
+room_model.ply
+
+# Temporary
 temp/
 tmp/
-*.tmp
-
-# Dataset (if large)
-yolo_data.zip
-
-# Web assets
-static/textures/*.jpg
-static/textures/*.png
-static/models/

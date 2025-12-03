@@ -45,13 +45,13 @@ def test_on_sample_images():
     """Test on sample images from training data."""
     
     model = YOLO('yolov8m.pt')
-    img_dir = Path("training_data/train2017")
+    img_dir = Path("yolo_data\images\train")
     
     # Get first 5 images
     images = list(img_dir.glob("*.jpg"))[:5]
     
     if not images:
-        print("No images found in training_data/train2017")
+        print("No images found in \yolo_data\images")
         return
     
     print(f"\nTesting on {len(images)} sample images...")

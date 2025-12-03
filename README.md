@@ -51,12 +51,11 @@ python run_web_demo.py
 
 ## Training Your Own Model
 
-### Option 1: Google Colab (Recommended)
-1. Open `Colab_Training_Enhanced.ipynb` in Google Colab
-2. Enable GPU (Runtime → Change runtime type → GPU)
-3. Upload `yolo_data.zip` when prompted
-4. Run all cells (2-3 hours training)
-5. Download both models
+### Option 1: Jupyter Notebook (Recommended)
+1. Open `YOLO_Training_Final.ipynb` in Jupyter/Colab
+2. Upload `arc_training_data.zip` when prompted
+3. Run all cells (6-8 hours CPU training)
+4. Download trained model
 
 ### Option 2: Local Training
 ```bash
