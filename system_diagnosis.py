@@ -184,7 +184,7 @@ def run_diagnosis():
     total = len(results)
     
     for check, status in results.items():
-        status_label = "OK" if status else "FAILED"
+        status_label = "PASS" if status else "FAIL"
         print(f"{status_label}: {check.replace('_', ' ').title()}")
     
     print(f"\nOverall: {passed}/{total} checks passed")
