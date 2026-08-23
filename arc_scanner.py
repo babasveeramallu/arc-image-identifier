@@ -31,7 +31,7 @@ class DepthEstimator:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model.to(self.device)
         self.model.eval()
-        print(f"✓ Depth estimator ready ({self.device})")
+        print(f"Depth estimator ready ({self.device})")
     
     def estimate(self, image: np.ndarray) -> np.ndarray:
         inputs = self.processor(images=image, return_tensors="pt")
@@ -155,7 +155,7 @@ class ArcRealTimeScanner:
         self.frame_count = 0
         self.scanning = False
         
-        print("✓ Arc Scanner initialized")
+        print("Arc Scanner initialized")
     
     def start_scanning(self):
         self.scanning = True
@@ -222,7 +222,7 @@ class ArcRealTimeScanner:
         )
         
         self.stitcher.add_wall(scan)
-        print(f"✓ Wall {len(self.stitcher.walls)} saved")
+        print(f"Wall {len(self.stitcher.walls)} saved")
     
     def _generate_room_model(self):
         print("Generating room model...")
@@ -230,7 +230,7 @@ class ArcRealTimeScanner:
         
         if mesh:
             o3d.io.write_triangle_mesh("room_model.ply", mesh)
-            print("✓ Room model saved to room_model.ply")
+            print("Room model saved to room_model.ply")
             o3d.visualization.draw_geometries([mesh])
         else:
             print("Need at least 2 walls")

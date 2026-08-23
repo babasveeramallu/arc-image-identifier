@@ -44,12 +44,12 @@ def main():
     print("Demo will open at: http://localhost:8000")
     print()
     print("Features available:")
-    print("✓ Real-time camera scanning")
-    print("✓ Wall element detection (outlets, switches, etc.)")
-    print("✓ Depth estimation and 3D reconstruction")
-    print("✓ Multi-wall stitching")
-    print("✓ Texture application")
-    print("✓ 3D model export")
+    print("- Real-time camera scanning")
+    print("- Wall element detection (outlets, switches, etc.)")
+    print("- Depth estimation and 3D reconstruction")
+    print("- Multi-wall stitching")
+    print("- Texture application")
+    print("- 3D model export")
     print()
     
     try:

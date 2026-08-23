@@ -18,16 +18,16 @@ python run_web_demo.py
 ```
 Opens at: http://localhost:8000
 
-## Hackathon Requirements ✅
+## Hackathon Requirements
 
 | Requirement | Implementation | Status |
 |------------|----------------|--------|
-| Real-time wall scanning | Camera + depth estimation | ✅ |
-| Element detection | YOLOv8 (outlets, switches, etc.) | ✅ |
-| 3D model generation | Point cloud + mesh reconstruction | ✅ |
-| Multi-wall stitching | ICP registration + SLAM | ✅ |
-| Texture library | 5 materials (paint, brick, wood, etc.) | ✅ |
-| Web app deployment | FastAPI + WebRTC | ✅ |
+| Real-time wall scanning | Camera + depth estimation | Ready |
+| Element detection | YOLOv8 (outlets, switches, etc.) | Ready |
+| 3D model generation | Point cloud + mesh reconstruction | Ready |
+| Multi-wall stitching | ICP registration + SLAM | Ready |
+| Texture library | 5 materials (paint, brick, wood, etc.) | Ready |
+| Web app deployment | FastAPI + WebRTC | Ready |
 
 ## Core Components
 

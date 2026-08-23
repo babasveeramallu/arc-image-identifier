@@ -4,21 +4,21 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Hackathon](https://img.shields.io/badge/Hackathon-Ready-brightgreen.svg)](https://github.com/)
 
-🏆 **Real-time AI-powered wall scanner that converts smartphone camera input to accurate 3D room models**
+**Real-time AI-powered wall scanner that converts smartphone camera input to accurate 3D room models**
 
 Built for hackathon: AI model that scans walls and surface elements in real-time, forming accurate 3D models with automatic multi-wall stitching and texture application.
 
-## 🎆 Hackathon Features
+## Hackathon Features
 
-- **📱 Real-time Camera Scanning** - Live wall detection using smartphone/webcam
-- **🏠 3D Room Reconstruction** - Multi-wall stitching with automatic corner detection
-- **🔌 Element Detection** - AI detection of outlets, switches, windows, doors
-- **🎨 Texture Library** - Apply materials (paint, brick, wood, concrete)
-- **🌐 Web Interface** - Browser-based demo with WebRTC
-- **📥 Model Export** - Download 3D models as PLY files
-- **⚡ Real-time Processing** - Sub-second depth estimation and reconstruction
+- **Real-time Camera Scanning** - Live wall detection using smartphone/webcam
+- **3D Room Reconstruction** - Multi-wall stitching with automatic corner detection
+- **Element Detection** - AI detection of outlets, switches, windows, doors
+- **Texture Library** - Apply materials (paint, brick, wood, concrete)
+- **Web Interface** - Browser-based demo with WebRTC
+- **Model Export** - Download 3D models as PLY files
+- **Real-time Processing** - Sub-second depth estimation and reconstruction
 
-## 🚀 Quick Start (Hackathon Demo)
+## Quick Start (Hackathon Demo)
 
 ```bash
 # 1. Install dependencies
@@ -32,18 +32,18 @@ python run_web_demo.py
 # Opens at http://localhost:8000
 ```
 
-### 🎬 Live Demo
+### Live Demo
 **Web App**: Point camera at wall → Capture multiple walls → Generate 3D room model → Apply textures → Download PLY file
 
-## 🔍 Detection + 3D Capabilities
+## Detection + 3D Capabilities
 
-### 🏠 Real-time Wall Scanning
+### Real-time Wall Scanning
 - **Depth Estimation**: Intel DPT model for RGB-to-depth conversion
 - **Point Cloud Generation**: 3D reconstruction from camera feed
 - **Wall Plane Detection**: RANSAC-based wall surface extraction
 - **Multi-wall Stitching**: ICP registration for room completion
 
-### 🔌 Element Detection (Existing)
+### Element Detection (Existing)
 - **5 Wall Classes**: mirror, thermostat, vent, wall_socket, window_box
 - **80 General Classes**: furniture, electronics, etc.
 - **Training Data**: 5,002 labeled images
@@ -62,7 +62,7 @@ python run_web_demo.py
 python train_yolo.py
 ```
 
-## 💻 Usage Examples
+## Usage Examples
 
 ### Real-time 3D Scanning
 ```python
@@ -108,32 +108,32 @@ print(f"Point cloud: {len(result['point_cloud'].points)} points")
 | General YOLOv8m | 80 | 80%+ | Everything else |
 | Combined System | 85 | Optimal | Complete detection |
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Arc/
-├── arc_scanner.py                # 🎆 Core 3D scanning system
-├── web_app.py                    # 🌐 Web interface (FastAPI + WebRTC)
-├── demo_hackathon.py             # 📹 Desktop demo
-├── run_web_demo.py               # 🚀 Web launcher
+├── arc_scanner.py                # Core 3D scanning system
+├── web_app.py                    # Web interface (FastAPI + WebRTC)
+├── demo_hackathon.py             # Desktop demo
+├── run_web_demo.py               # Web launcher
 ├── dual_detection_service.py     # Object detection service
 ├── detect_objects.py             # Simple detection script
-├── requirements_hackathon.txt    # 🎆 Hackathon dependencies
+├── requirements_hackathon.txt    # Hackathon dependencies
 ├── static/                       # Web assets
 │   └── textures/                 # Material library
 ├── yolo_data/                    # Training dataset (5,002 images)
-├── HACKATHON_SETUP.md            # 📝 Setup instructions
-└── room_model.ply                # 🏠 Generated 3D model
+├── HACKATHON_SETUP.md            # Setup instructions
+└── room_model.ply                # Generated 3D model
 ```
 
-## 🔑 Key Files
+## Key Files
 
-- **`arc_scanner.py`** - 🎆 Real-time 3D scanning pipeline (depth + point cloud + stitching)
-- **`web_app.py`** - 🌐 Full web interface with camera access and 3D viewer
-- **`demo_hackathon.py`** - 📹 Desktop demo for testing
-- **`run_web_demo.py`** - 🚀 One-click web demo launcher
+- **`arc_scanner.py`** - Real-time 3D scanning pipeline (depth + point cloud + stitching)
+- **`web_app.py`** - Full web interface with camera access and 3D viewer
+- **`demo_hackathon.py`** - Desktop demo for testing
+- **`run_web_demo.py`** - One-click web demo launcher
 - **`dual_detection_service.py`** - Object detection (existing)
-- **`HACKATHON_SETUP.md`** - 📝 Complete setup guide
+- **`HACKATHON_SETUP.md`** - Complete setup guide
 
 ## Training Data
 
@@ -165,9 +165,9 @@ MIT License - see LICENSE file for details.
 - [MiDaS](https://github.com/isl-org/MiDaS) - Depth estimation
 - [FastAPI](https://fastapi.tiangolo.com/) - Web framework
 
-## 🎆 Hackathon Implementation
+## Hackathon Implementation
 
-### ✅ Completed (Hackathon Ready)
+### Completed (Hackathon Ready)
 - [x] **Real-time camera scanning** - Live wall detection
 - [x] **3D model generation** - Point cloud to mesh conversion
 - [x] **Multi-wall stitching** - ICP registration algorithm
@@ -176,23 +176,23 @@ MIT License - see LICENSE file for details.
 - [x] **Texture system** - Material library with 5 options
 - [x] **Model export** - PLY file download
 
-### 🔄 Technical Pipeline
+### Technical Pipeline
 ```
 Camera → Depth Estimation → Point Cloud → Wall Detection → 3D Model
    ↓           ↓              ↓           ↓           ↓
 Object Detection → Real-time Overlay → Multi-wall Stitching → Export
 ```
 
-## 🏆 Hackathon Submission
+## Hackathon Submission
 
 **Challenge**: AI model that scans walls and surface elements in real-time, forming accurate 3D models
 
 **Solution**: Arc - Complete real-time wall scanner with:
-- 📱 Smartphone camera integration
-- 🤖 AI element detection (outlets, switches, etc.)
-- 🏠 Multi-wall 3D room reconstruction
-- 🎨 Texture application system
-- 🌐 Web-based demo interface
+- Smartphone camera integration
+- AI element detection (outlets, switches, etc.)
+- Multi-wall 3D room reconstruction
+- Texture application system
+- Web-based demo interface
 
 **Demo**: `python run_web_demo.py` → http://localhost:8000
 
@@ -204,4 +204,4 @@ Object Detection → Real-time Overlay → Multi-wall Stitching → Export
 
 ---
 
-🚀 **Made by Baba Sumukhesh Veeramallu** | Hackathon Ready 🏆
+**Made by Baba Sumukhesh Veeramallu** | Hackathon Ready

@@ -31,7 +31,7 @@ class DualDetectionService:
         # General model (always available)
         self.general_model = YOLO(general_model_path or 'yolov8m.pt')
         
-        print("✓ Dual detection service initialized")
+        print("Dual detection service initialized")
     
     def detect_comprehensive(self, image, confidence_threshold: float = 0.3) -> Dict[str, Any]:
         """Perform comprehensive detection using available models."""

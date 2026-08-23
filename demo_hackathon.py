@@ -18,12 +18,12 @@ def main():
         import os
         wall_model = "wall_elements_specialized.pt" if os.path.exists("wall_elements_specialized.pt") else None
         detector = DualDetectionService(wall_model_path=wall_model)
-        print("✓ Object detection ready")
+        print("Object detection ready")
         
         # Initialize scanner
         print("2. Initializing 3D scanner...")
         scanner = ArcRealTimeScanner(detector, camera_index=0)
-        print("✓ Real-time scanner ready")
+        print("Real-time scanner ready")
         
         print()
         print("=== DEMO INSTRUCTIONS ===")

@@ -30,9 +30,9 @@ def check_files():
     missing = []
     for file in required_files:
         if os.path.exists(file):
-            print(f"✓ {file}")
+            print(f"OK: {file}")
         else:
-            print(f"✗ {file} - MISSING")
+            print(f"MISSING: {file}")
             missing.append(file)
     
     return len(missing) == 0
@@ -54,9 +54,9 @@ def check_dependencies():
                 importlib.import_module('PIL')
             else:
                 importlib.import_module(package)
-            print(f"✓ {package}")
+            print(f"OK: {package}")
         except ImportError as e:
-            print(f"✗ {package} - {e}")
+            print(f"ERROR: {package} - {e}")
             missing.append(package)
     
     return missing
@@ -67,15 +67,15 @@ def check_models():
     
     # Check YOLOv8 model
     if os.path.exists('yolov8m.pt'):
-        print("✓ yolov8m.pt (general model)")
+        print("OK: yolov8m.pt (general model)")
     else:
-        print("✗ yolov8m.pt - will download automatically")
+        print("MISSING: yolov8m.pt - will download automatically")
     
     # Check custom wall model
     if os.path.exists('wall_elements_specialized.pt'):
-        print("✓ wall_elements_specialized.pt (custom model)")
+        print("OK: wall_elements_specialized.pt (custom model)")
     else:
-        print("⚠ wall_elements_specialized.pt - using general model only")
+        print("WARNING: wall_elements_specialized.pt - using general model only")
     
     return True
 
@@ -85,24 +85,24 @@ def test_imports():
     
     try:
         from dual_detection_service import DualDetectionService
-        print("✓ DualDetectionService")
+        print("OK: DualDetectionService")
     except Exception as e:
-        print(f"✗ DualDetectionService - {e}")
+        print(f"ERROR: DualDetectionService - {e}")
         return False
     
     try:
         from arc_scanner import DepthEstimator, PointCloudProcessor
-        print("✓ Arc Scanner components")
+        print("OK: Arc Scanner components")
     except Exception as e:
-        print(f"✗ Arc Scanner - {e}")
+        print(f"ERROR: Arc Scanner - {e}")
         return False
     
     try:
         import fastapi
         import uvicorn
-        print("✓ Web framework")
+        print("OK: Web framework")
     except Exception as e:
-        print(f"✗ Web framework - {e}")
+        print(f"ERROR: Web framework - {e}")
         return False
     
     return True
@@ -123,13 +123,13 @@ def test_detection():
         
         # Test detection
         results = detector.detect_comprehensive(test_image)
-        print("✓ Object detection working")
+        print("OK: Object detection working")
         print(f"  Detected classes: {list(results.keys())}")
         
         return True
         
     except Exception as e:
-        print(f"✗ Detection test failed - {e}")
+        print(f"ERROR: Detection test failed - {e}")
         traceback.print_exc()
         return False
 
@@ -140,7 +140,7 @@ def test_web_server():
     try:
         # Try importing web app
         import web_app
-        print("✓ Web app imports successfully")
+        print("OK: Web app imports successfully")
         
         # Check if port 8000 is available
         import socket
@@ -149,19 +149,19 @@ def test_web_server():
         sock.close()
         
         if result == 0:
-            print("⚠ Port 8000 already in use")
+            print("WARNING: Port 8000 already in use")
         else:
-            print("✓ Port 8000 available")
+            print("OK: Port 8000 available")
         
         return True
         
     except Exception as e:
-        print(f"✗ Web server test failed - {e}")
+        print(f"ERROR: Web server test failed - {e}")
         return False
 
 def run_diagnosis():
     """Run complete system diagnosis"""
-    print("🔍 ARC SYSTEM DIAGNOSIS")
+    print("ARC SYSTEM DIAGNOSIS")
     print("=" * 50)
     
     results = {}
@@ -177,20 +177,20 @@ def run_diagnosis():
     
     # Summary
     print("\n" + "=" * 50)
-    print("📊 DIAGNOSIS SUMMARY")
+    print("DIAGNOSIS SUMMARY")
     print("=" * 50)
     
     passed = sum(results.values())
     total = len(results)
     
     for check, status in results.items():
-        status_icon = "✓" if status else "✗"
-        print(f"{status_icon} {check.replace('_', ' ').title()}")
+        status_label = "OK" if status else "FAILED"
+        print(f"{status_label}: {check.replace('_', ' ').title()}")
     
     print(f"\nOverall: {passed}/{total} checks passed")
     
     # Recommendations
-    print("\n🔧 RECOMMENDATIONS:")
+    print("\nRECOMMENDATIONS:")
     
     if not results['dependencies']:
         print("1. Install missing dependencies:")
@@ -205,10 +205,10 @@ def run_diagnosis():
         print("   Check web_app.py imports")
     
     if passed == total:
-        print("✅ System is ready! Try:")
+        print("System is ready. Try:")
         print("   python run_web_demo.py")
     else:
-        print("❌ Fix issues above before running demo")
+        print("Fix issues above before running demo")
     
     return passed == total
 
